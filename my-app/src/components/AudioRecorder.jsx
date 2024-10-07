@@ -1,59 +1,72 @@
 import React, { useState, useRef } from 'react';
+import PitchDetector from './PitchDetector';
 
 const AudioRecorder = () => {
   const [isRecording, setIsRecording] = useState(false);
-  const [audioURL, setAudioURL] = useState('');
+  const [hasRecording, setHasRecording] = useState(false);
+  const [recordedChunks, setRecordedChunks] = useState([]);
   const mediaRecorderRef = useRef(null);
-  const audioChunksRef = useRef([]); // Using a ref to store chunks
+  const micRef = useRef(null);
 
   // Ask for permission and start recording
-  const startRecording = () => {
-    audioChunksRef.current = []; // Clear previous chunks
+  const startRecording = async () => {
+    try {
+        const stream = await navigator.mediaDevices.getUserMedia({ audio : true});
+        micRef.current = stream; // take in audio stream
 
-    navigator.mediaDevices.getUserMedia({ audio: true })
-      .then((stream) => {
-        const mediaRecorder = new MediaRecorder(stream);
-        mediaRecorderRef.current = mediaRecorder;
+        mediaRecorderRef.current = new MediaRecorder(stream);
+        mediaRecorderRef.current.ondataavailable = handleDataAvailable;
+        mediaRecorderRef.current.start();
 
-        mediaRecorder.start();
         setIsRecording(true);
-
-        mediaRecorder.ondataavailable = (event) => {
-          audioChunksRef.current.push(event.data); // Accumulate chunks in the ref
-        };
-
-        mediaRecorder.onstop = () => {
-          const audioBlob = new Blob(audioChunksRef.current, { type: 'audio/wav' });
-          const audioUrl = URL.createObjectURL(audioBlob);
-          setAudioURL(audioUrl);  // Set the audio URL when recording is stopped
-        };
-      })
-      .catch((err) => {
-        console.error('Error accessing microphone:', err);
-      });
+    } catch (err) {
+        console.log('Error with microphone. Make sure to allow permission: ', err);
+    }
   };
 
-  // Stop recording
-  const stopRecording = () => {
-    if (mediaRecorderRef.current) {
-      mediaRecorderRef.current.stop();
-      setIsRecording(false);
+// get the data and set it to recorded chunks
+  const handleDataAvailable = (event) => {
+    if (event.data.size > 0) {
+      setRecordedChunks(prev => [...prev, event.data]);
     }
+  };
+
+  // play recording
+  const playRecording = () => {
+    const audioBlob = new Blob(recordedChunks, { type: 'audio/webm' });
+    const audioUrl = URL.createObjectURL(audioBlob);
+    const audio = new Audio(audioUrl);
+    audio.play();
+  }
+
+  // stop recording
+  const stopRecording = () => {
+    mediaRecorderRef.current.stop();
+    micRef.current.getTracks().forEach(track => track.stop());
+    setIsRecording(false);
+    setHasRecording(true);
   };
 
   return (
     <div>
-      <h1>Audio Recorder</h1>
-      <button onClick={isRecording ? stopRecording : startRecording}>
-        {isRecording ? 'Stop Recording' : 'Start Recording'}
-      </button>
-
-      {audioURL && (
-        <div>
-          <h2>Playback:</h2>
-          <audio src={audioURL} controls />
-        </div>
+      <h2>Audio Recorder</h2>
+      {isRecording ? 
+      (
+        <button onClick={stopRecording}>Stop Recording</button>
+      ) : 
+      (
+        <button onClick={startRecording}>Start Recording</button>
       )}
+      {hasRecording ? 
+      (
+        <button onClick={playRecording} disabled={recordedChunks.length === 0}>
+            Play Recording
+        </button>
+      ) : 
+      (
+        <p>Make a recording to play it!</p>
+      )}
+      <PitchDetector isRecording={isRecording} /> {/* Pass isRecording to PitchDetector */}
     </div>
   );
 };

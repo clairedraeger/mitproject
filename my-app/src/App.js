@@ -1,13 +1,13 @@
 import React from 'react';
-import './App.css';
 import AudioRecorder from './components/AudioRecorder';
 
-function App() {
+const App = () => {
   return (
-    <div className="App">
+    <div>
+      <h1>Audio App</h1>
       <AudioRecorder />
     </div>
   );
-}
+};
 
 export default App;
