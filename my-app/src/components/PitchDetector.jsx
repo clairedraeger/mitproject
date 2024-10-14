@@ -69,6 +69,7 @@ const PitchDetector = ({ isRecording }) => {
     };
 
     // Autocorrelation function for pitch detection
+    // created with the help of ChatGPT + tutorial linked above
     const autoCorrelate = (buffer, sampleRate) => {
         let SIZE = buffer.length;
         let rms = 0;
