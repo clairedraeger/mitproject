@@ -1,8 +1,9 @@
 import React, { useState, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
-import PitchDetector from './PitchDetector';
+import PitchDetector from '../PitchDetector';
+import SyllableEmphasizer from '../SyllableEmphasizer';
 
-const AudioRecorder = () => {
+const GoodMorning = () => {
   const navigate = useNavigate();
   const [isRecording, setIsRecording] = useState(false);
   const [hasRecording, setHasRecording] = useState(false);
@@ -56,6 +57,13 @@ const AudioRecorder = () => {
     navigate('/');
   };
 
+  // Good Morning sentence
+  const syllables = [
+    { syllable: 'Good ', time: 0 },
+    { syllable: 'Mor', time: 1200 },
+    { syllable: 'ning', time: 2200 }
+  ];
+
   return (
     <div>
       <button onClick={handleBack}>back</button>
@@ -77,8 +85,9 @@ const AudioRecorder = () => {
         <p>Make a recording to play it!</p>
       )}
       <PitchDetector isRecording={isRecording} />
+      <SyllableEmphasizer syllables={syllables} />
     </div>
   );
 };
 
-export default AudioRecorder;
+export default GoodMorning;

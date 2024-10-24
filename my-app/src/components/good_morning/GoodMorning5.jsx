@@ -1,8 +1,8 @@
 import React, { useState, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
-import PitchDetector from './PitchDetector';
+import PitchDetector from '../PitchDetector';
 
-const AudioRecorder = () => {
+const GoodMorning5 = () => {
   const navigate = useNavigate();
   const [isRecording, setIsRecording] = useState(false);
   const [hasRecording, setHasRecording] = useState(false);
@@ -53,32 +53,47 @@ const AudioRecorder = () => {
   };
 
   const handleBack = () => {
-    navigate('/');
+    navigate('/good-morning-4');
   };
+
+  const handleNext = () => {
+    navigate('/good-morning-6');
+  };
+
+  // Good Morning sentence
+  const syllables = [
+    { syllable: 'Good ', time: 10 },
+    { syllable: 'Mor', time: 1200 },
+    { syllable: 'ning', time: 2200 }
+  ];
 
   return (
     <div>
-      <button onClick={handleBack}>back</button>
-      <h2>Audio Recorder</h2>
-      {isRecording ? 
-      (
-        <button onClick={stopRecording}>Stop Recording</button>
-      ) : 
-      (
-        <button onClick={startRecording}>Start Recording</button>
-      )}
-      {hasRecording ? 
-      (
-        <button onClick={playRecording} disabled={recordings.length === 0}>
-            Play Recording
-        </button>
-      ) : 
-      (
-        <p>Make a recording to play it!</p>
-      )}
-      <PitchDetector isRecording={isRecording} />
+        <button onClick={handleBack}>back</button>
+        <h2>Great Job!</h2>
+        <h2>Now practice singing by yourself!</h2>
+        <p>When you feel ready, record yourself singing the sentence!</p>
+        <p>After you finish recording, press "play recording" to listen back!</p>
+        {isRecording ? 
+        (
+            <button onClick={stopRecording}>Stop Recording</button>
+        ) : 
+        (
+            <button onClick={startRecording}>Start Recording</button>
+        )}
+        {hasRecording ? 
+        (
+            <button onClick={playRecording} disabled={recordings.length === 0}>
+                Play Recording
+            </button>
+        ) : 
+        (
+            <p>Make a recording to play it!</p>
+        )}
+        <PitchDetector isRecording={isRecording} syllables={syllables}/>
+        <button onClick={handleNext}>Next Step</button>
     </div>
   );
 };
 
-export default AudioRecorder;
+export default GoodMorning5;
