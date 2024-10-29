@@ -57,18 +57,22 @@ const PitchDetector = ({ isRecording, syllables }) => {
         };
     }, [isRecording]);
 
-    const detectPitch = () => {
+    const detectPitch = async() => {
         if (isRecording) {
             analyserNodeRef.current.getFloatTimeDomainData(buffer.current);
             const detectedPitch = autoCorrelate(buffer.current, audioContextRef.current.sampleRate);
 
             if (detectedPitch !== -1) {
+               
                 setPitch(detectedPitch.toFixed(2));
                 // console.log(`Detected pitch: ${detectedPitch.toFixed(2)}`);
+                if (detectedPitch < 1000) {
+                    // Append the current time and pitch to the pitchData array
+                    const currentTime = audioContextRef.current.currentTime;
+                    setPitchData(prevData => [...prevData, { time: currentTime, pitch: detectedPitch.toFixed(2) }]);
+                }
 
-                // Append the current time and pitch to the pitchData array
-                const currentTime = audioContextRef.current.currentTime;
-                setPitchData(prevData => [...prevData, { time: currentTime, pitch: detectedPitch.toFixed(2) }]);
+        
             } else {
                 setPitch(null);
             }

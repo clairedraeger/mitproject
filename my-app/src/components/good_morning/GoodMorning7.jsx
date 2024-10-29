@@ -66,16 +66,15 @@ const GoodMorning7 = () => {
 
     // try to upload recording
     try {
-      const response = await axios.post('http://localhost:5001/api/s3/upload', formData, {
+      const response = await axios.post('https://mitbackend.onrender.com/api/s3/upload', formData, {
         headers: {
           'Content-Type': 'multipart/form-data',
         },
       });
       const currUrl = response.data.url;
-      setS3url(response.data.url);
-      getTranscription(currUrl);
+      setS3url(currUrl);
 
-      console.log("Succesfull upload at: ", response.data.url);
+      console.log("Succesfull upload at: ", currUrl);
     } catch (err) {
       console.log("Error uploading file ", err);
     }
@@ -83,14 +82,25 @@ const GoodMorning7 = () => {
   };
 
   // speech-to-text API
-  const getTranscription = async(s3Url) => {
+  const transcribeRecording = async () => {
+    if (recordings.length === 0) return;
+    
+    const recording = recordings[recordings.length - 1];
+    const formData = new FormData();
+    formData.append('audioFile', recording, 'recording.webm');
+  
     try {
-      const response = await axios.post('http://localhost:5001/api/speech/transcribe', { audioUrl: s3Url });
+      const response = await axios.post('https://mitbackend.onrender.com/api/speech/transcribe', formData, {
+        headers: {
+          'Content-Type': 'multipart/form-data',
+        },
+      });
+  
       const transcription = response.data.transcription;
       setTranscription(transcription);
       console.log("Transcribed: ", transcription);
     } catch (err) {
-      console.log("Error with speech-to-text: ", err);
+      console.log("Error transcribing file ", err);
     }
   };
 
@@ -101,6 +111,13 @@ const GoodMorning7 = () => {
   const handleNext = () => {
     navigate('/good-morning-6');
   };
+
+  // Call both S3 and transcription on button click
+const handleSeeResults = async () => {
+  await uploadRecording(); // Store in S3
+  // await transcribeRecording(); // Transcribe directly using AssemblyAI
+};
+
   return (
     <div>
         <button onClick={handleBack}>back</button>
@@ -124,7 +141,7 @@ const GoodMorning7 = () => {
         (
             <p>Make a recording to play it!</p>
         )}
-        <button onClick={uploadRecording}>See Results!</button>
+        <button onClick={handleSeeResults}>See Results!</button>
         <button onClick={handleNext}>Next Step</button>
     </div>
   );
