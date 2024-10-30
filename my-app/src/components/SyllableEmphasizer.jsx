@@ -1,4 +1,5 @@
 import React, { useRef, useState } from 'react';
+import { FaPlay } from 'react-icons/fa';
 
 const SyllableEmphasizer = ({ syllables, audioSrc }) => {
   const audioRef = useRef(null);
@@ -41,8 +42,8 @@ const SyllableEmphasizer = ({ syllables, audioSrc }) => {
         ))}
       </h1>
       <audio ref={audioRef} src={audioSrc} />
-      <button onClick={playAudio} disabled={isPlaying}>
-        {isPlaying ? 'Playing...' : 'Play'}
+      <button onClick={playAudio} disabled={isPlaying} title="play audio!" className="playAudio">
+        {isPlaying ? 'Playing...' : <FaPlay style={{ color: 'black' }}/>}
       </button>
     </div>
   );

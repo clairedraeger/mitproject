@@ -1,11 +1,19 @@
+* {
+  background-color: #f7f7f7;
+}
+
 .App {
   text-align: center;
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  height: 100vh; /* Full viewport height */
-  background-color: #e6e6e6;
+  height: 100vh;
+}
+
+.five {
+  margin-top: 200px;
+  height: 120vh;
 }
 
 .App-logo {
@@ -33,7 +41,7 @@ button {
   margin-top: 20px;
   padding: 10px 20px;
   font-size: 16px;
-  background-color: #61dafb;
+  background-color: #8c8c8c;
   color: #fff;
   border: none;
   border-radius: 5px;
@@ -41,13 +49,58 @@ button {
 }
 
 button:hover {
-  background-color: #4fa8db;
+  background-color: #6e6e6e;
+}
+
+.nextButton {
+  font-size: 32px;
+  position: fixed;
+  left: 50px;
+  top: 10px;
+  border-radius: 0px;
+  background: none;
+}
+.nextButton:hover {
+  transform: scale(1.1);
+  background: none;
+}
+.backButton {
+  font-size: 32px;
+  position: fixed;
+  left: 10px;
+  top: 10px;
+  padding: 10px 10px;
+  border-radius: 0px;
+  background: none;
+}
+.backButton:hover {
+  transform: scale(1.1);
+  background: none;
+}
+.microPhone {
+  font-size: 30px;
+  background: none;
+  padding: none;
+}
+.microPhone:hover {
+  background: none;
+  transform: scale(1.1);
+}
+.playAudio {
+  border: 2px solid black;
+  background: none;
+  color: black;
+}
+.playAudio:hover {
+  background: none;
+  transform: scale(1.1);
 }
 
 p {
   text-align: center;
-  margin-top: 20px;
-  font-size: 1.2rem;
+  padding: 0;
+  font-size: 20px;
+
 }
 
 @keyframes App-logo-spin {

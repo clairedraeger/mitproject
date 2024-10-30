@@ -1,6 +1,7 @@
 import React, { useState, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
 import PitchDetector from '../PitchDetector';
+import { FaPlay, FaArrowAltCircleLeft, FaArrowRight, FaMicrophone } from 'react-icons/fa';
 
 const GoodMorning5 = () => {
   const navigate = useNavigate();
@@ -68,30 +69,30 @@ const GoodMorning5 = () => {
   ];
 
   return (
-    <div>
-        <button onClick={handleBack}>back</button>
-        <h2>Great Job!</h2>
-        <h2>Now practice singing by yourself!</h2>
-        <p>When you feel ready, record yourself singing the sentence!</p>
-        <p>After you finish recording, press "play recording" to listen back!</p>
+    <div className="five">
+        <button class="backButton" onClick={handleBack} title="Go back!" style={{ color: 'black' }}><FaArrowAltCircleLeft /></button>
+        <h2>Great Job! Now practice singing by yourself!</h2>
+        <p>When you feel ready, click the microphone to record yourself singing the sentence!</p>
+        <p>After you finish recording, press the "play" icon to listen back!</p>
         {isRecording ? 
         (
             <button onClick={stopRecording}>Stop Recording</button>
         ) : 
         (
-            <button onClick={startRecording}>Start Recording</button>
+            <button onClick={startRecording} className="microPhone" title="click me to record!" style={{ color: 'black' }}><FaMicrophone /></button>
         )}
+        <p></p>
         {hasRecording ? 
         (
-            <button onClick={playRecording} disabled={recordings.length === 0}>
-                Play Recording
+            <button onClick={playRecording} disabled={recordings.length === 0} className="playAudio">
+                <FaPlay />
             </button>
         ) : 
         (
-            <p>Make a recording to play it!</p>
+            <p></p>
         )}
         <PitchDetector isRecording={isRecording} syllables={syllables}/>
-        <button onClick={handleNext}>Next Step</button>
+        <button class="nextButton" onClick={handleNext} title="Next step!" style={{ color: 'black' }}><FaArrowRight /></button>
     </div>
   );
 };

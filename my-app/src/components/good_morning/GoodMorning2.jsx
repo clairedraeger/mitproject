@@ -2,12 +2,13 @@ import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import SyllableEmphasizer from '../SyllableEmphasizer';
 import audioFile from '../../audios/good_morning_sing_piano.mp3';
+import { FaArrowAltCircleLeft, FaArrowRight } from 'react-icons/fa';
 
 const GoodMorning2 = () => {
   const navigate = useNavigate();
 
   const handleBack = () => {
-    navigate('/good-morning-intro');
+    navigate('/good-morning-1');
   };
 
   const handleNext = () => {
@@ -23,12 +24,11 @@ const GoodMorning2 = () => {
 
   return (
     <div>
-        <button onClick={handleBack}>back</button>
-        <h2>Great Job!</h2>
-        <h2>Now, let's work on singing the sentence with the same tone as the notes.</h2>
-        <h2>Play the audio to hear what it should sound like!.</h2>
+        <button class="backButton" onClick={handleBack} title="Go back!"><FaArrowAltCircleLeft style={{ color: 'black' }}/></button>
+        <h2>Great Job! Now, let's work on singing the sentence with the same tone as the notes.</h2>
+        <p>Play the audio to hear what it should sound like!.</p>
         <SyllableEmphasizer syllables={syllables} audioSrc={audioFile}/>
-        <button onClick={handleNext}>Next Step</button>
+        <button class="nextButton" onClick={handleNext} title="Next step!"><FaArrowRight style={{ color: 'black' }}/></button>
     </div>
   );
 };

@@ -150,8 +150,8 @@ const PitchDetector = ({ isRecording, syllables }) => {
     };
 
     return (
-        <div>
-            <h2>Pitch Detector</h2>
+        <div className="line-chart">
+            <h3>Pitch Detector</h3>
             <p>Detected Pitch: {pitch ? `${pitch} Hz` : 'No pitch detected'}</p>
 
             {/* Render the pitch chart after recording */}

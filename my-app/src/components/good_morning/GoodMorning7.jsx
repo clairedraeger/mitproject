@@ -1,6 +1,7 @@
 import React, { useState, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
+import { FaPlay, FaArrowAltCircleLeft, FaArrowRight, FaMicrophone } from 'react-icons/fa';
 
 const GoodMorning7 = () => {
   const navigate = useNavigate();
@@ -120,7 +121,7 @@ const handleSeeResults = async () => {
 
   return (
     <div>
-        <button onClick={handleBack}>back</button>
+        <button class="backButton" onClick={handleBack} title="Go back!"><FaArrowAltCircleLeft style={{ color: 'black' }}/></button>
         <h2>Great Job!</h2>
         <h2>Now practice saying the sentence by yourself!</h2>
         <p>When you feel ready, record yourself singing the sentence!</p>
@@ -130,19 +131,22 @@ const handleSeeResults = async () => {
             <button onClick={stopRecording}>Stop Recording</button>
         ) : 
         (
-            <button onClick={startRecording}>Start Recording</button>
+            <button onClick={startRecording} className="microPhone" title="click me to record!"><FaMicrophone style={{ color: 'black' }}/></button>
         )}
+        <p></p>
         {hasRecording ? 
         (
-            <button onClick={playRecording} disabled={recordings.length === 0}>
-                Play Recording
-            </button>
+          <button onClick={playRecording} disabled={recordings.length === 0} className="playAudio">
+            <FaPlay style={{ color: 'black' }}/>
+          </button>
         ) : 
         (
             <p>Make a recording to play it!</p>
         )}
+        <p></p>
         <button onClick={handleSeeResults}>See Results!</button>
-        <button onClick={handleNext}>Next Step</button>
+        <p></p>
+        <button class="nextButton" onClick={handleNext} title="Next step!"><FaArrowRight style={{ color: 'black' }}/></button>
     </div>
   );
 };

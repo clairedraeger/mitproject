@@ -2,6 +2,8 @@ import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import SyllableEmphasizer from '../SyllableEmphasizer';
 import audioFile from '../../audios/good_morning_piano.mp3';
+import { FaArrowAltCircleLeft, FaArrowRight } from 'react-icons/fa';
+
 
 const GoodMorningIntro = () => {
   const navigate = useNavigate();
@@ -23,11 +25,11 @@ const GoodMorningIntro = () => {
 
   return (
     <div>
-        <button onClick={handleBack}>back</button>
+        <button class="backButton" onClick={handleBack} title="Go back!"><FaArrowAltCircleLeft style={{ color: 'black' }}/></button>
         <h2>Notes will play for each syllable in the sentence.</h2>
         <h2>Try tapping your left fingers when each syllable turns red.</h2>
         <SyllableEmphasizer syllables={syllables} audioSrc={audioFile} />
-        <button onClick={handleNext}>Next Step</button>
+        <button class="nextButton" onClick={handleNext} title="Next step!"><FaArrowRight style={{ color: 'black' }}/></button>
     </div>
   );
 };

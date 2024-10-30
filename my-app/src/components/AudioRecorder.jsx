@@ -1,6 +1,7 @@
 import React, { useState, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
 import PitchDetector from './PitchDetector';
+import { FaPlay } from 'react-icons/fa';
 
 const AudioRecorder = () => {
   const navigate = useNavigate();
@@ -70,7 +71,7 @@ const AudioRecorder = () => {
       {hasRecording ? 
       (
         <button onClick={playRecording} disabled={recordings.length === 0}>
-            Play Recording
+            <FaPlay style={{ color: 'black' }}/>
         </button>
       ) : 
       (
