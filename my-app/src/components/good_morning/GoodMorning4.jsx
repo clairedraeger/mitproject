@@ -25,11 +25,11 @@ const GoodMorning4 = () => {
 
   return (
     <div>
-        <button class="backButton" onClick={handleBack} title="Go back!"><FaArrowAltCircleLeft style={{ color: 'black' }}/></button>
+        <button className="backButton" onClick={handleBack} title="Go back!"><FaArrowAltCircleLeft style={{ color: 'black' }}/></button>
         <h2>Try singing and tapping along to the audio without the piano.</h2>
         <p>Practice a few times until you are comfortable.</p>
         <SyllableEmphasizer syllables={syllables} audioSrc={audioFile}/>
-        <button class="nextButton" onClick={handleNext} title="Next step!"><FaArrowRight style={{ color: 'black' }}/></button>
+        <button className="nextButton" onClick={handleNext} title="Next step!"><FaArrowRight style={{ color: 'black' }}/></button>
     </div>
   );
 };

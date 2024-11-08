@@ -11,7 +11,11 @@ const GoodMorning7 = () => {
   // S3
   const [s3url, setS3url] = useState([]);
   // Speech-to-text
-  const [transcription, setTranscription] = useState([]);
+  const [transcription, setTranscription] = useState(["None"]);
+  const [accuracyRate, setAccuracyRate] = useState([0]);
+  // waiting for transcription results
+  const [isLoading, setIsLoading] = useState(false);
+
   const mediaRecorderRef = useRef(null);
   const micRef = useRef(null);
 
@@ -76,6 +80,7 @@ const GoodMorning7 = () => {
       setS3url(currUrl);
 
       console.log("Succesfull upload at: ", currUrl);
+      console.log(s3url);
     } catch (err) {
       console.log("Error uploading file ", err);
     }
@@ -89,39 +94,61 @@ const GoodMorning7 = () => {
     const recording = recordings[recordings.length - 1];
     const formData = new FormData();
     formData.append('audioFile', recording, 'recording.webm');
-  
+    // http://localhost:5001/api/speech/transcribe
+    // https://mitbackend.onrender.com/api/speech/transcribe
     try {
       const response = await axios.post('https://mitbackend.onrender.com/api/speech/transcribe', formData, {
         headers: {
           'Content-Type': 'multipart/form-data',
         },
       });
-  
-      const transcription = response.data.transcription;
+      const transcription = response.data.text;
       setTranscription(transcription);
       console.log("Transcribed: ", transcription);
+      calculateAccuracy(transcription);
     } catch (err) {
       console.log("Error transcribing file ", err);
     }
+  };
+
+  const calculateAccuracy = (current_transcription) => {
+    const actualSentence = "Good morning.";
+    const actualWords = actualSentence.toLowerCase().split(" ");
+    const transcribedWords = current_transcription.toLowerCase().split(" ");
+  
+    // Count correct words
+    let correctCount = 0;
+    actualWords.forEach((word, index) => {
+      if (transcribedWords[index] === word) {
+        console.log(transcribedWords[index] + " " + word);
+        correctCount += 1;
+      }
+    });
+  
+    // Calculate accuracy
+    const accuracy = (correctCount / actualWords.length) * 100;
+    setAccuracyRate(accuracy.toFixed(2)); // Return as a percentage with 2 decimal places
   };
 
   const handleBack = () => {
     navigate('/good-morning-6');
   };
 
-  const handleNext = () => {
-    navigate('/good-morning-6');
+  const handleNext = async () => {
+    await uploadRecording();
+    navigate('/good-morning-done');
   };
 
   // Call both S3 and transcription on button click
 const handleSeeResults = async () => {
-  await uploadRecording(); // Store in S3
-  // await transcribeRecording(); // Transcribe directly using AssemblyAI
+  setIsLoading(true);
+  await transcribeRecording(); // Transcribe directly using AssemblyAI
+  setIsLoading(false);
 };
 
   return (
     <div>
-        <button class="backButton" onClick={handleBack} title="Go back!"><FaArrowAltCircleLeft style={{ color: 'black' }}/></button>
+        <button className="backButton" onClick={handleBack} title="Go back!"><FaArrowAltCircleLeft style={{ color: 'black' }}/></button>
         <h2>Great Job!</h2>
         <h2>Now practice saying the sentence by yourself!</h2>
         <p>When you feel ready, record yourself singing the sentence!</p>
@@ -144,9 +171,22 @@ const handleSeeResults = async () => {
             <p>Make a recording to play it!</p>
         )}
         <p></p>
-        <button onClick={handleSeeResults}>See Results!</button>
+        {isLoading ? (
+          <button disabled>Loading...</button>
+        ) : (
+          <button onClick={handleSeeResults}>See Results!</button>
+        )}
         <p></p>
-        <button class="nextButton" onClick={handleNext} title="Next step!"><FaArrowRight style={{ color: 'black' }}/></button>
+        {transcription && <p>Transcription: {transcription}</p>}
+        {accuracyRate && <p>Accuracy Rate: {accuracyRate}%</p>}
+        <button
+          className="nextButton"
+          onClick={handleNext}
+          title="Next step!"
+          // disabled={accuracyRate < 100} // Enable only if accuracy is 100%
+        >
+          <FaArrowRight style={{ color: 'black' }} />
+        </button>
     </div>
   );
 };

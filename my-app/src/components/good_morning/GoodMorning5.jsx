@@ -70,7 +70,7 @@ const GoodMorning5 = () => {
 
   return (
     <div className="five">
-        <button class="backButton" onClick={handleBack} title="Go back!" style={{ color: 'black' }}><FaArrowAltCircleLeft /></button>
+        <button className="backButton" onClick={handleBack} title="Go back!" style={{ color: 'black' }}><FaArrowAltCircleLeft /></button>
         <h2>Great Job! Now practice singing by yourself!</h2>
         <p>When you feel ready, click the microphone to record yourself singing the sentence!</p>
         <p>After you finish recording, press the "play" icon to listen back!</p>
@@ -92,7 +92,7 @@ const GoodMorning5 = () => {
             <p></p>
         )}
         <PitchDetector isRecording={isRecording} syllables={syllables}/>
-        <button class="nextButton" onClick={handleNext} title="Next step!" style={{ color: 'black' }}><FaArrowRight /></button>
+        <button className="nextButton" onClick={handleNext} title="Next step!" style={{ color: 'black' }}><FaArrowRight /></button>
     </div>
   );
 };

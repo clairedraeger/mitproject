@@ -14,6 +14,8 @@ import GoodMorning4 from './components/good_morning/GoodMorning4';
 import GoodMorning5 from './components/good_morning/GoodMorning5';
 import GoodMorning6 from './components/good_morning/GoodMorning6';
 import GoodMorning7 from './components/good_morning/GoodMorning7';
+import GoodMorningDone from './components/good_morning/GoodMorningDone';
+
 
 import './App.css';
 
@@ -34,6 +36,7 @@ const App = () => {
         <Route path="/good-morning-5" element={<GoodMorning5 />} />
         <Route path="/good-morning-6" element={<GoodMorning6 />} />
         <Route path="/good-morning-7" element={<GoodMorning7 />} />
+        <Route path="/good-morning-done" element={<GoodMorningDone />} />
         <Route path="/good-morning" element={<GoodMorning />} />
       </Routes>
     </div>
