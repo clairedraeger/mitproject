@@ -77,6 +77,14 @@ button:hover {
   transform: scale(1.1);
   background: none;
 }
+.optButton {
+  border-radius: 0px;
+  background: none;
+  color: #868686;
+}
+.optButton:hover {
+  background: none;
+}
 .microPhone {
   font-size: 30px;
   background: none;

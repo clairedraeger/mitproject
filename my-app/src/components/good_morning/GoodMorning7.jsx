@@ -15,6 +15,8 @@ const GoodMorning7 = () => {
   const [accuracyRate, setAccuracyRate] = useState([0]);
   // waiting for transcription results
   const [isLoading, setIsLoading] = useState(false);
+  // Upload to S3 permission
+  const [hasPermission, setPermission] = useState(true);
 
   const mediaRecorderRef = useRef(null);
   const micRef = useRef(null);
@@ -135,8 +137,15 @@ const GoodMorning7 = () => {
   };
 
   const handleNext = async () => {
-    await uploadRecording();
+    console.log(hasPermission);
+    if (hasPermission) {
+      await uploadRecording();
+    }
     navigate('/good-morning-done');
+  };
+
+  const handleUpload = () => {
+    setPermission(false);
   };
 
   // Call both S3 and transcription on button click
@@ -179,6 +188,10 @@ const handleSeeResults = async () => {
         <p></p>
         {transcription && <p>Transcription: {transcription}</p>}
         {accuracyRate && <p>Accuracy Rate: {accuracyRate}%</p>}
+        <p></p>
+        <button className="optButton" onClick={handleUpload}>
+          Click here to opt out of your anonymous voice recordings being used for research
+        </button>
         <button
           className="nextButton"
           onClick={handleNext}
