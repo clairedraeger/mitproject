@@ -160,7 +160,7 @@ const handleSeeResults = async () => {
         <button className="backButton" onClick={handleBack} title="Go back!"><FaArrowAltCircleLeft style={{ color: 'black' }}/></button>
         <h2>Great Job!</h2>
         <h2>Now practice saying the sentence by yourself!</h2>
-        <p>When you feel ready, record yourself singing the sentence!</p>
+        <p>When you feel ready, record yourself speaking the sentence!</p>
         <p>After you finish recording, press "play recording" to listen back!</p>
         {isRecording ? 
         (
